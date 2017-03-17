@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mGroup3"
+        android:tag="0"
         android:background="#ab1f32" />
 
     <com.app.kongsin.sliduplayout.Item
@@ -20,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mGroup2"
+        android:tag="1"
         android:background="#5a469c" />
 
     <com.app.kongsin.sliduplayout.Item
@@ -27,12 +29,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mGroup1"
+        android:tag="2"
         android:background="#74b9c7" />
 
     <com.app.kongsin.sliduplayout.Item
         android:id="@+id/mGroup1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:tag="3"
         android:background="#b3a33d" />
 
 </RelativeLayout>

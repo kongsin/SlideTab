@@ -17,13 +17,18 @@ import com.example.kanimationcontroller.BaseAnimationControl;
 
 public class MenuFragment extends Fragment implements View.OnClickListener {
 
-    private Item  mGroup1, mGroup2, mGroup3, mGroup4;
-    private RelativeLayout mRootViewGroup;
-    private boolean isCallaps;
+    private Item                    mGroup1, mGroup2, mGroup3, mGroup4;
+    private RelativeLayout          mRootViewGroup;
+    private boolean                 isCallaps;
+    private OnMenuClickedListener   menuClickedListener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    public void setOnClickListener(OnMenuClickedListener  listener){
+        this.menuClickedListener = listener;
     }
 
     @Nullable
@@ -89,6 +94,10 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
 
     private void collaps(final View view){
         isCallaps = true;
+
+        if (menuClickedListener != null){
+            menuClickedListener.onClicked((Integer) view.getTag());
+        }
 
         mRootViewGroup.bringChildToFront(view);
 

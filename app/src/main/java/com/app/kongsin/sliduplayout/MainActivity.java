@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         MenuFragment fragment = new MenuFragment();
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(android.R.id.content, fragment)
+                .replace(android.R.id.content, fragment)
                 .commit();
 
     }
