@@ -100,6 +100,10 @@ public class Item extends FrameLayout {
         }
     }
 
+    public void setItemText(String text) {
+        this.mItemText.setText(text);
+    }
+
     @Override
     public void setBackgroundColor(@ColorInt int color) {
         if (mContentItem != null)
