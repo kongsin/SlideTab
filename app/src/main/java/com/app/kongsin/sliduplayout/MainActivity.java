@@ -1,0 +1,114 @@
+package com.app.kongsin.sliduplayout;
+
+import android.content.res.Configuration;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.RelativeLayout;
+
+import com.example.kanimationcontroller.AnimationQueue;
+import com.example.kanimationcontroller.BaseAnimationControl;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private Item  mGroup1, mGroup2, mGroup3, mGroup4;
+    private RelativeLayout mRootViewGroup;
+    private boolean isCallaps;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mRootViewGroup = (RelativeLayout) findViewById(R.id.rootViewGroup);
+        mGroup1 = (Item) findViewById(R.id.mGroup1);
+        mGroup1.setOnClickListener(this);
+        mGroup1.showShadow(false);
+        mGroup2 = (Item) findViewById(R.id.mGroup2);
+        mGroup2.setOnClickListener(this);
+        mGroup3 = (Item) findViewById(R.id.mGroup3);
+        mGroup3.setOnClickListener(this);
+        mGroup4 = (Item) findViewById(R.id.mGroup4);
+        mGroup4.setOnClickListener(this);
+
+        mRootViewGroup.post(new Runnable() {
+            @Override
+            public void run() {
+                initialItemsSize();
+            }
+        });
+    }
+
+    private void initialItemsSize() {
+        int h = mRootViewGroup.getHeight();
+        for (int i = 0; i < mRootViewGroup.getChildCount(); i++) {
+            View view = mRootViewGroup.getChildAt(i);
+            view.getLayoutParams().height = h / mRootViewGroup.getChildCount();
+            view.requestLayout();
+            view.invalidate();
+        }
+    }
+
+    private void expand(){
+        isCallaps = false;
+        BaseAnimationControl b1 = new BaseAnimationControl(mGroup1);
+        b1.goToTop(mRootViewGroup);
+        BaseAnimationControl b2 = new BaseAnimationControl(mGroup2);
+        b2.stackToBottomOf(b1);
+        BaseAnimationControl b3 = new BaseAnimationControl(mGroup3);
+        b3.stackToBottomOf(b2);
+        BaseAnimationControl b4 = new BaseAnimationControl(mGroup4);
+        b4.stackToBottomOf(b3);
+
+        AnimationQueue queue = new AnimationQueue(0, b1);
+        queue.nextQueue(0, b2);
+        queue.nextQueue(0, b3);
+        queue.nextQueue(0, b4);
+        queue.startTogether();
+    }
+
+    private int getCallapsSize(){
+        int oraint = getResources().getConfiguration().orientation;
+        if (oraint == Configuration.ORIENTATION_PORTRAIT){
+            return -((mRootViewGroup.getHeight() / mRootViewGroup.getChildCount()) / 2);
+        } else {
+            return 0;
+        }
+    }
+
+    private void collaps(final View view){
+        isCallaps = true;
+
+        mRootViewGroup.bringChildToFront(view);
+
+        BaseAnimationControl b1 = new BaseAnimationControl(mGroup1);
+        b1.y(getCallapsSize());
+        BaseAnimationControl b2 = new BaseAnimationControl(mGroup2);
+        b2.y(getCallapsSize());
+        BaseAnimationControl b3 = new BaseAnimationControl(mGroup3);
+        b3.y(getCallapsSize());
+        BaseAnimationControl b4 = new BaseAnimationControl(mGroup4);
+        b4.y(getCallapsSize());
+
+        AnimationQueue queue = new AnimationQueue(0, b1);
+        queue.nextQueue(0, b2);
+        queue.nextQueue(0, b3);
+        queue.nextQueue(0, b4);
+        queue.startTogether();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (isCallaps){
+            if (v instanceof Item){
+                ((Item) v).showImage(true);
+            }
+            expand();
+        } else {
+            if (v instanceof Item){
+                ((Item) v).showImage(false);
+            }
+            collaps(v);
+        }
+    }
+}
