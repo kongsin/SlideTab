@@ -63,15 +63,24 @@ public class Item extends FrameLayout {
         mShadow = findViewById(R.id.view);
 
         if (attributeSet != null){
-            int[] attrsArray = new int[] {
-                    android.R.attr.id, // 0
-                    android.R.attr.background, // 1
-                    android.R.attr.layout_width, // 2
-                    android.R.attr.layout_height // 3
-            };
-            TypedArray a = getContext().obtainStyledAttributes(attributeSet, attrsArray);
-            int color = a.getColor(1, Color.DKGRAY);
-            setBackgroundColor(color);
+            TypedArray a = getContext().obtainStyledAttributes(attributeSet, R.styleable.Item);
+            int count = a.getIndexCount();
+            for (int i = 0; i < count; i++) {
+                switch (a.getIndex(i)){
+                    case R.styleable.Item_tabBackground:
+                        int color = a.getColor(a.getIndex(i), Color.DKGRAY);
+                        setBackgroundColor(color);
+                        break;
+                    case R.styleable.Item_tabText:
+                        String text = a.getString(a.getIndex(i));
+                        mItemText.setText(text);
+                        break;
+                    case R.styleable.Item_tabIcon:
+                        Drawable icon = a.getDrawable(a.getIndex(i));
+                        setBackground(icon);
+                        break;
+                }
+            }
             a.recycle();
         }
 
