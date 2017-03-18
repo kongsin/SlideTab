@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.app.kongsin.sliduplayout.MainActivity"
     android:orientation="vertical"
     android:id="@+id/rootViewGroup">
@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/mGroup3"
         android:tag="0"
-        android:background="#ab1f32" />
+        app:tabBackground="#ab1f32"
+        app:tabText="JAVA"/>
 
     <com.app.kongsin.sliduplayout.Item
         android:id="@+id/mGroup3"
@@ -22,7 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/mGroup2"
         android:tag="1"
-        android:background="#5a469c" />
+        app:tabBackground="#5a469c"
+        app:tabText="C#"/>
 
     <com.app.kongsin.sliduplayout.Item
         android:id="@+id/mGroup2"
@@ -30,13 +32,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/mGroup1"
         android:tag="2"
-        android:background="#74b9c7" />
+        app:tabBackground="#74b9c7"
+        app:tabText="C++"/>
 
     <com.app.kongsin.sliduplayout.Item
         android:id="@+id/mGroup1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:tag="3"
-        android:background="#b3a33d" />
+        app:tabBackground="#b3a33d"
+        app:tabText="JAVA SCRIPT"/>
 
 </RelativeLayout>
