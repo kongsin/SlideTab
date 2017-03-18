@@ -12,7 +12,8 @@
         android:background="#a4a139"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="4sp">
+        android:paddingTop="4sp"
+        android:layout_above="@+id/bottomShadowView">
 
         <ImageView
             android:id="@+id/imageView_itemImage_itemLayout"
@@ -33,9 +34,17 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/topShadowView"
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:background="@drawable/shadow" />
+
+    <View
+        android:id="@+id/bottomShadowView"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shadow"
+        android:visibility="gone"/>
 
 </RelativeLayout>

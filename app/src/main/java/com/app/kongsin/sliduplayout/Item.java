@@ -1,6 +1,5 @@
 package com.app.kongsin.sliduplayout;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -30,7 +29,8 @@ public class Item extends FrameLayout {
     private LinearLayout    mContentItem;
     private TextView        mItemText;
     private ImageView       mItemImage;
-    private View            mShadow;
+    private View            mTopShadow;
+    private View            mBottomShadow;
 
     public Item(Context context) {
         super(context);
@@ -60,7 +60,8 @@ public class Item extends FrameLayout {
         mContentItem = (LinearLayout) findViewById(R.id.linearLayout_itemContent_itemLayout);
         mItemText = (TextView) findViewById(R.id.textView_itemText_itemLayout);
         mItemImage = (ImageView) findViewById(R.id.imageView_itemImage_itemLayout);
-        mShadow = findViewById(R.id.view);
+        mTopShadow = findViewById(R.id.topShadowView);
+        mBottomShadow = findViewById(R.id.bottomShadowView);
 
         if (attributeSet != null){
             TypedArray a = getContext().obtainStyledAttributes(attributeSet, R.styleable.Item);
@@ -96,9 +97,14 @@ public class Item extends FrameLayout {
 
     }
 
-    public void showShadow(boolean show){
-        mShadow.setVisibility(show ? VISIBLE : INVISIBLE);
+    public void showTopShadow(boolean show){
+        mTopShadow.setVisibility(show ? VISIBLE : GONE);
     }
+
+    public void showBottomShadow(boolean show){
+        mBottomShadow.setVisibility(show ? VISIBLE : GONE);
+    }
+
 
     public void showImage(final boolean show){
         final int rotation = getContext().getResources().getConfiguration().orientation;

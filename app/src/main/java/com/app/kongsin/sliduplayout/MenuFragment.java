@@ -35,7 +35,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         mRootViewGroup = (RelativeLayout) view.findViewById(R.id.rootViewGroup);
         mGroup1 = (Item) view.findViewById(R.id.mGroup1);
         mGroup1.setOnClickListener(this);
-        mGroup1.showShadow(false);
+        mGroup1.showTopShadow(false);
         mGroup2 = (Item) view.findViewById(R.id.mGroup2);
         mGroup2.setOnClickListener(this);
         mGroup3 = (Item) view.findViewById(R.id.mGroup3);
@@ -89,11 +89,11 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void collapse(final View view){
+    private void collapse(final Item view){
         isCallaps = true;
 
         if (menuClickedListener != null){
-            menuClickedListener.onClicked((Integer) view.getTag());
+            menuClickedListener.onClicked(view.getId());
         }
 
         mRootViewGroup.bringChildToFront(view);
@@ -119,13 +119,13 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         if (isCallaps){
             if (v instanceof Item){
                 ((Item) v).showImage(true);
+                expand();
             }
-            expand();
         } else {
             if (v instanceof Item){
                 ((Item) v).showImage(false);
+                collapse((Item) v);
             }
-            collapse(v);
         }
     }
 
