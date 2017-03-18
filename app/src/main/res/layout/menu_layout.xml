@@ -9,22 +9,12 @@
     android:id="@+id/rootViewGroup">
 
     <com.app.kongsin.sliduplayout.Item
-        android:id="@+id/mGroup4"
+        android:id="@+id/mGroup1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/mGroup3"
-        android:tag="0"
-        app:tabBackground="#ab1f32"
-        app:tabText="JAVA"/>
-
-    <com.app.kongsin.sliduplayout.Item
-        android:id="@+id/mGroup3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mGroup2"
-        android:tag="1"
-        app:tabBackground="#5a469c"
-        app:tabText="C#"/>
+        android:tag="3"
+        app:tabBackground="#b3a33d"
+        app:tabText="JAVA SCRIPT"/>
 
     <com.app.kongsin.sliduplayout.Item
         android:id="@+id/mGroup2"
@@ -36,11 +26,21 @@
         app:tabText="C++"/>
 
     <com.app.kongsin.sliduplayout.Item
-        android:id="@+id/mGroup1"
+        android:id="@+id/mGroup3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:tag="3"
-        app:tabBackground="#b3a33d"
-        app:tabText="JAVA SCRIPT"/>
+        android:layout_below="@+id/mGroup2"
+        android:tag="1"
+        app:tabBackground="#5a469c"
+        app:tabText="C#"/>
+
+    <com.app.kongsin.sliduplayout.Item
+        android:id="@+id/mGroup4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mGroup3"
+        android:tag="0"
+        app:tabBackground="#ab1f32"
+        app:tabText="JAVA"/>
 
 </RelativeLayout>
