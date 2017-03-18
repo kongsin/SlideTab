@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.example.kanimationcontroller.AnimationQueue;
-import com.example.kanimationcontroller.BaseAnimationControl;
+import com.kongsin.kanimationcontroller.AnimationQueue;
+import com.kongsin.kanimationcontroller.BaseAnimationControl;
 
 public class MenuFragment extends Fragment implements View.OnClickListener {
 
