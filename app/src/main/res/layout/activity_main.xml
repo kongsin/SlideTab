@@ -16,43 +16,11 @@
 
     </LinearLayout>
 
-    <GridLayout
-        android:id="@+id/containter"
-        android:columnCount="2"
-        android:rowCount="2"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/gridView"
+        android:layout_marginTop="65dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_marginTop="65dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/buttonPanel"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:text="5555555"/>
-
-            <Button
-                android:id="@+id/buttonPanel1"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"/>
-
-            <Button
-                android:id="@+id/buttonPanel2"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"/>
-
-            <Button
-                android:id="@+id/buttonPanel5"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:text="5555555"/>
-
-        </LinearLayout>
-
-    </GridLayout>
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

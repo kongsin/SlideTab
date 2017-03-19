@@ -62,8 +62,13 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void expand(){
+    private void expand(Item view){
         isCallaps = false;
+
+        if (menuClickedListener != null){
+            menuClickedListener.onClicked(view, true);
+        }
+
         BaseAnimationObject b1 = new BaseAnimationObject(mGroup1);
         b1.goToTop(mRootViewGroup);
         BaseAnimationObject b2 = new BaseAnimationObject(mGroup2);
@@ -93,7 +98,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         isCallaps = true;
 
         if (menuClickedListener != null){
-            menuClickedListener.onClicked(view);
+            menuClickedListener.onClicked(view, false);
         }
 
         mRootViewGroup.bringChildToFront(view);
@@ -119,7 +124,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         if (isCallaps){
             if (v instanceof Item){
                 ((Item) v).showImage(true);
-                expand();
+                expand((Item) v);
             }
         } else {
             if (v instanceof Item){

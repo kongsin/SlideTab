@@ -5,5 +5,5 @@ package com.app.kongsin.sliduplayout;
  */
 
 public interface OnMenuClickedListener {
-    void onClicked(Item item);
+    void onClicked(Item item, boolean expand);
 }

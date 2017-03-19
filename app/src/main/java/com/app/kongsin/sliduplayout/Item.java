@@ -136,6 +136,11 @@ public class Item extends FrameLayout {
     }
 
     @Override
+    public Drawable getBackground() {
+        return mContentItem.getBackground();
+    }
+
+    @Override
     public void setBackgroundResource(@DrawableRes int resid) {
         if (mContentItem != null)
         mContentItem.setBackgroundResource(resid);
