@@ -8,20 +8,17 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView            mGridLayout;
     private Drawable                mItemBg;
     private ExampleAdapter          mAdapter;
-    private ViewGroup               mRootContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mRootContainer = (ViewGroup) findViewById(R.id.rootViewGroup);
         mGridLayout = (RecyclerView) findViewById(R.id.gridView);
         initialMenu();
     }
