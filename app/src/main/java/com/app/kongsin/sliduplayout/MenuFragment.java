@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.kongsin.kanimationcontroller.AnimationQueue;
-import com.kongsin.kanimationcontroller.BaseAnimationControl;
+import com.kongsin.kanimationcontroller.BaseAnimationObject;
 
 public class MenuFragment extends Fragment implements View.OnClickListener {
 
@@ -64,13 +64,13 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
 
     private void expand(){
         isCallaps = false;
-        BaseAnimationControl b1 = new BaseAnimationControl(mGroup1);
+        BaseAnimationObject b1 = new BaseAnimationObject(mGroup1);
         b1.goToTop(mRootViewGroup);
-        BaseAnimationControl b2 = new BaseAnimationControl(mGroup2);
+        BaseAnimationObject b2 = new BaseAnimationObject(mGroup2);
         b2.stackToBottomOf(b1);
-        BaseAnimationControl b3 = new BaseAnimationControl(mGroup3);
+        BaseAnimationObject b3 = new BaseAnimationObject(mGroup3);
         b3.stackToBottomOf(b2);
-        BaseAnimationControl b4 = new BaseAnimationControl(mGroup4);
+        BaseAnimationObject b4 = new BaseAnimationObject(mGroup4);
         b4.stackToBottomOf(b3);
 
         AnimationQueue queue = new AnimationQueue(0, b1);
@@ -98,13 +98,13 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
 
         mRootViewGroup.bringChildToFront(view);
 
-        BaseAnimationControl b1 = new BaseAnimationControl(mGroup1);
+        BaseAnimationObject b1 = new BaseAnimationObject(mGroup1);
         b1.y(getCallapsSize());
-        BaseAnimationControl b2 = new BaseAnimationControl(mGroup2);
+        BaseAnimationObject b2 = new BaseAnimationObject(mGroup2);
         b2.y(getCallapsSize());
-        BaseAnimationControl b3 = new BaseAnimationControl(mGroup3);
+        BaseAnimationObject b3 = new BaseAnimationObject(mGroup3);
         b3.y(getCallapsSize());
-        BaseAnimationControl b4 = new BaseAnimationControl(mGroup4);
+        BaseAnimationObject b4 = new BaseAnimationObject(mGroup4);
         b4.y(getCallapsSize());
 
         AnimationQueue queue = new AnimationQueue(0, b1);
