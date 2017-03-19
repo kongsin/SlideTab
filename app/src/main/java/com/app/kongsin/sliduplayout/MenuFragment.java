@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
     private boolean                 isCallaps;
     private OnMenuClickedListener   menuClickedListener;
     private int                     mCollapseSize, mExpandSize;
+    private RecyclerView            mRecyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -128,6 +130,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        handlerRecyclerViewAnimation(isCallaps);
         if (isCallaps){
             if (v instanceof Item){
                 expand((Item) v);
@@ -139,8 +142,23 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void handlerRecyclerViewAnimation(boolean isCallaps) {
+        if (mRecyclerView != null){
+            BaseAnimationObject base = new BaseAnimationObject(mRecyclerView);
+            if (!isCallaps){
+                base.y(mCollapseSize);
+            } else {
+                base.y(mRootViewGroup.getHeight() / 2);
+            }
+            base.startDelay(50);
+        }
+    }
+
     private int toDp(int val){
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, val, getContext().getResources().getDisplayMetrics());
     }
 
+    public void injetRecyclerView(RecyclerView mGridLayout) {
+        mRecyclerView = mGridLayout;
+    }
 }
