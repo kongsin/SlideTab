@@ -13,9 +13,12 @@ import android.widget.RelativeLayout;
 import com.kongsin.kanimationcontroller.AnimationQueue;
 import com.kongsin.kanimationcontroller.BaseAnimationObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MenuFragment extends Fragment implements View.OnClickListener {
 
-    private Item                    mGroup1, mGroup2, mGroup3, mGroup4;
+    private List<Item>              items;
     private RelativeLayout          mRootViewGroup;
     private BaseAnimationObject     mRootObj;
     private boolean                 isCallaps;
@@ -36,15 +39,12 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.menu_layout, container, false);
         mRootViewGroup = (RelativeLayout) view.findViewById(R.id.rootViewGroup);
-        mGroup1 = (Item) view.findViewById(R.id.mGroup1);
-        mGroup1.setOnClickListener(this);
-        mGroup1.showTopShadow(false);
-        mGroup2 = (Item) view.findViewById(R.id.mGroup2);
-        mGroup2.setOnClickListener(this);
-        mGroup3 = (Item) view.findViewById(R.id.mGroup3);
-        mGroup3.setOnClickListener(this);
-        mGroup4 = (Item) view.findViewById(R.id.mGroup4);
-        mGroup4.setOnClickListener(this);
+
+        items = new ArrayList<>();
+        items.add((Item) view.findViewById(R.id.mGroup1));
+        items.add((Item) view.findViewById(R.id.mGroup2));
+        items.add((Item) view.findViewById(R.id.mGroup3));
+        items.add((Item) view.findViewById(R.id.mGroup4));
 
         mRootViewGroup.post(new Runnable() {
             @Override
@@ -61,6 +61,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         mCollapseSize = toDp(65);
         for (int i = 0; i < mRootViewGroup.getChildCount(); i++) {
             Item view = (Item) mRootViewGroup.getChildAt(i);
+            view.setOnClickListener(this);
             view.getLayoutParams().height = h / mRootViewGroup.getChildCount();
             view.requestLayout();
             view.invalidate();
@@ -73,22 +74,22 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         if (menuClickedListener != null){
             menuClickedListener.onClicked(view, false);
         }
-        mRootObj = new BaseAnimationObject(mRootViewGroup);
-        BaseAnimationObject b1 = new BaseAnimationObject(mGroup1);
-        b1.goToTop(mRootObj).height(mExpandSize);
-        BaseAnimationObject b2 = new BaseAnimationObject(mGroup2);
-        b2.stackToBottomOf(b1).height(mExpandSize);
-        BaseAnimationObject b3 = new BaseAnimationObject(mGroup3);
-        b3.stackToBottomOf(b2).height(mExpandSize);
-        BaseAnimationObject b4 = new BaseAnimationObject(mGroup4);
-        b4.stackToBottomOf(b3).height(mExpandSize);
 
-        AnimationQueue queue = new AnimationQueue(0, b1);
-        queue.nextQueue(0, b2);
-        queue.nextQueue(0, b3);
-        queue.nextQueue(0, b4);
+        mRootObj = new BaseAnimationObject(mRootViewGroup);
+        List<BaseAnimationObject> blist = new ArrayList<>();
+        AnimationQueue queue = new AnimationQueue();
+        for (int i = 0; i < items.size(); i++) {
+            BaseAnimationObject b = new BaseAnimationObject(items.get(i));
+            if (i == 0) {
+                b.goToTop(mRootObj);
+            } else {
+                b.stackToBottomOf(blist.get(i-1));
+            }
+            blist.add(b.height(mExpandSize));
+            queue.nextQueue(0, blist.get(i));
+        }
         queue.startTogether();
-        view.showImage(true, b1);
+        view.showImage(true, blist.get(0));
     }
 
     private int getCollapseSize(){
@@ -108,21 +109,20 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
 
         mRootViewGroup.bringChildToFront(view);
         mRootObj = new BaseAnimationObject(mRootViewGroup);
-        BaseAnimationObject b1 = new BaseAnimationObject(mGroup1);
-        b1.goToTop(mRootObj).height(mCollapseSize);
-        BaseAnimationObject b2 = new BaseAnimationObject(mGroup2);
-        b2.y(0).height(mCollapseSize);
-        BaseAnimationObject b3 = new BaseAnimationObject(mGroup3);
-        b3.y(0).height(mCollapseSize);
-        BaseAnimationObject b4 = new BaseAnimationObject(mGroup4);
-        b4.y(0).height(mCollapseSize);
-
-        AnimationQueue queue = new AnimationQueue(0, b1);
-        queue.nextQueue(0, b2);
-        queue.nextQueue(0, b3);
-        queue.nextQueue(0, b4);
+        List<BaseAnimationObject> blist = new ArrayList<>();
+        AnimationQueue queue = new AnimationQueue();
+        for (int i = 0; i < items.size(); i++) {
+            BaseAnimationObject b = new BaseAnimationObject(items.get(i));
+            if (i == 0) {
+                b.goToTop(mRootObj);
+            } else {
+                b.y(0);
+            }
+            blist.add(b.height(mCollapseSize));
+            queue.nextQueue(0, blist.get(i));
+        }
         queue.startTogether();
-        view.showImage(false, b1);
+        view.showImage(false, blist.get(0));
 
     }
 
