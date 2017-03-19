@@ -80,7 +80,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         queue.startTogether();
     }
 
-    private int getCallapsSize(){
+    private int getCollapseSize(){
         int oraint = getResources().getConfiguration().orientation;
         if (oraint == Configuration.ORIENTATION_PORTRAIT){
             return -((mRootViewGroup.getHeight() / mRootViewGroup.getChildCount()) / 2);
@@ -93,19 +93,19 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         isCallaps = true;
 
         if (menuClickedListener != null){
-            menuClickedListener.onClicked(view.getId());
+            menuClickedListener.onClicked(view);
         }
 
         mRootViewGroup.bringChildToFront(view);
 
         BaseAnimationObject b1 = new BaseAnimationObject(mGroup1);
-        b1.y(getCallapsSize());
+        b1.y(getCollapseSize());
         BaseAnimationObject b2 = new BaseAnimationObject(mGroup2);
-        b2.y(getCallapsSize());
+        b2.y(getCollapseSize());
         BaseAnimationObject b3 = new BaseAnimationObject(mGroup3);
-        b3.y(getCallapsSize());
+        b3.y(getCollapseSize());
         BaseAnimationObject b4 = new BaseAnimationObject(mGroup4);
-        b4.y(getCallapsSize());
+        b4.y(getCollapseSize());
 
         AnimationQueue queue = new AnimationQueue(0, b1);
         queue.nextQueue(0, b2);

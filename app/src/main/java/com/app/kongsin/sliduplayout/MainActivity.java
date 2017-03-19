@@ -21,6 +21,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         MenuFragment fragment = new MenuFragment();
+        fragment.setOnClickListener(new OnMenuClickedListener() {
+            @Override
+            public void onClicked(Item item) {
+
+            }
+        });
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(android.R.id.content, fragment)
