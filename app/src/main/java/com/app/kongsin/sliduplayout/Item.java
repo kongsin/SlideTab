@@ -1,5 +1,6 @@
 package com.app.kongsin.sliduplayout;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -11,6 +12,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -18,6 +20,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.kongsin.kanimationcontroller.AnimationQueue;
+import com.kongsin.kanimationcontroller.BaseAnimationObject;
 
 /**
  * Created by kongsin on 3/18/2017.
@@ -63,6 +68,21 @@ public class Item extends FrameLayout {
         mTopShadow = findViewById(R.id.topShadowView);
         mBottomShadow = findViewById(R.id.bottomShadowView);
 
+        initXMLValue(attributeSet);
+
+        post(new Runnable() {
+            @Override
+            public void run() {
+                final int rotation = getContext().getResources().getConfiguration().orientation;
+                if (rotation == Configuration.ORIENTATION_LANDSCAPE) {
+                    mItemImage.setVisibility(GONE);
+                }
+            }
+        });
+
+    }
+
+    private void initXMLValue(AttributeSet attributeSet) {
         if (attributeSet != null){
             TypedArray a = getContext().obtainStyledAttributes(attributeSet, R.styleable.Item);
             int count = a.getIndexCount();
@@ -84,17 +104,6 @@ public class Item extends FrameLayout {
             }
             a.recycle();
         }
-
-        post(new Runnable() {
-            @Override
-            public void run() {
-                final int rotation = getContext().getResources().getConfiguration().orientation;
-                if (rotation == Configuration.ORIENTATION_LANDSCAPE) {
-                    mItemImage.setVisibility(GONE);
-                }
-            }
-        });
-
     }
 
     public void showTopShadow(boolean show){
@@ -105,13 +114,25 @@ public class Item extends FrameLayout {
         mBottomShadow.setVisibility(show ? VISIBLE : GONE);
     }
 
-
-    public void showImage(final boolean show){
+    public void showImage(final boolean show, BaseAnimationObject object){
         final int rotation = getContext().getResources().getConfiguration().orientation;
+        BaseAnimationObject text = new BaseAnimationObject(mItemText);
+        final BaseAnimationObject icon = new BaseAnimationObject(mItemImage);
         if (rotation == Configuration.ORIENTATION_PORTRAIT) {
-            mItemImage.animate().alpha(show ? 1 : 0).start();
+            if (show){
+                icon.width(toDp(48)).height(toDp(48)).moveToCenterVertical(object);
+                text.stackToBottomOf(icon).marginTop(toDp(12));
+            } else {
+                icon.width(0).height(0);
+                text.moveToCenterVertical(object);
+            }
+            AnimationQueue queue = new AnimationQueue();
+            queue.nextQueue(0, icon);
+            queue.nextQueue(0, text);
+            queue.startTogether();
         } else {
             mItemImage.setVisibility(GONE);
+            text.stackToBottomOf(icon);
         }
     }
 
@@ -144,5 +165,9 @@ public class Item extends FrameLayout {
     public void setBackgroundResource(@DrawableRes int resid) {
         if (mContentItem != null)
         mContentItem.setBackgroundResource(resid);
+    }
+
+    private int toDp(int val){
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, val, getContext().getResources().getDisplayMetrics());
     }
 }

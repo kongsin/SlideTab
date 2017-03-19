@@ -8,20 +8,20 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
-
-import com.kongsin.kanimationcontroller.BaseAnimationObject;
+import android.view.ViewGroup;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView    mGridLayout;
-    private Drawable        mItemBg;
-    private ExampleAdapter  mAdapter;
+    private RecyclerView            mGridLayout;
+    private Drawable                mItemBg;
+    private ExampleAdapter          mAdapter;
+    private ViewGroup               mRootContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mRootContainer = (ViewGroup) findViewById(R.id.rootViewGroup);
         mGridLayout = (RecyclerView) findViewById(R.id.gridView);
         initialMenu();
     }
@@ -40,9 +40,6 @@ public class MainActivity extends AppCompatActivity {
                 mItemBg = item.getBackground();
                 mAdapter.setItemBackground(mItemBg);
                 mAdapter.notifyDataSetChanged();
-                BaseAnimationObject baseAnimationObject = new BaseAnimationObject(mGridLayout);
-                baseAnimationObject.y(expand ? toDp(300) : toDp(65));
-                baseAnimationObject.start();
             }
         });
 

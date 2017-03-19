@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,10 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
 
     private Item                    mGroup1, mGroup2, mGroup3, mGroup4;
     private RelativeLayout          mRootViewGroup;
+    private BaseAnimationObject     mRootObj;
     private boolean                 isCallaps;
     private OnMenuClickedListener   menuClickedListener;
+    private int                     mCollapseSize, mExpandSize;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,35 +57,38 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
 
     private void initialItemsSize() {
         int h = mRootViewGroup.getHeight();
+        mExpandSize = h / mRootViewGroup.getChildCount();
+        mCollapseSize = toDp(65);
         for (int i = 0; i < mRootViewGroup.getChildCount(); i++) {
-            View view = mRootViewGroup.getChildAt(i);
+            Item view = (Item) mRootViewGroup.getChildAt(i);
             view.getLayoutParams().height = h / mRootViewGroup.getChildCount();
             view.requestLayout();
             view.invalidate();
         }
     }
 
-    private void expand(Item view){
+    private void expand(final Item view){
         isCallaps = false;
 
         if (menuClickedListener != null){
-            menuClickedListener.onClicked(view, true);
+            menuClickedListener.onClicked(view, false);
         }
-
+        mRootObj = new BaseAnimationObject(mRootViewGroup);
         BaseAnimationObject b1 = new BaseAnimationObject(mGroup1);
-        b1.goToTop(mRootViewGroup);
+        b1.goToTop(mRootObj).height(mExpandSize);
         BaseAnimationObject b2 = new BaseAnimationObject(mGroup2);
-        b2.stackToBottomOf(b1);
+        b2.stackToBottomOf(b1).height(mExpandSize);
         BaseAnimationObject b3 = new BaseAnimationObject(mGroup3);
-        b3.stackToBottomOf(b2);
+        b3.stackToBottomOf(b2).height(mExpandSize);
         BaseAnimationObject b4 = new BaseAnimationObject(mGroup4);
-        b4.stackToBottomOf(b3);
+        b4.stackToBottomOf(b3).height(mExpandSize);
 
         AnimationQueue queue = new AnimationQueue(0, b1);
         queue.nextQueue(0, b2);
         queue.nextQueue(0, b3);
         queue.nextQueue(0, b4);
         queue.startTogether();
+        view.showImage(true, b1);
     }
 
     private int getCollapseSize(){
@@ -96,42 +102,45 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
 
     private void collapse(final Item view){
         isCallaps = true;
-
         if (menuClickedListener != null){
             menuClickedListener.onClicked(view, false);
         }
 
         mRootViewGroup.bringChildToFront(view);
-
+        mRootObj = new BaseAnimationObject(mRootViewGroup);
         BaseAnimationObject b1 = new BaseAnimationObject(mGroup1);
-        b1.y(getCollapseSize());
+        b1.goToTop(mRootObj).height(mCollapseSize);
         BaseAnimationObject b2 = new BaseAnimationObject(mGroup2);
-        b2.y(getCollapseSize());
+        b2.y(0).height(mCollapseSize);
         BaseAnimationObject b3 = new BaseAnimationObject(mGroup3);
-        b3.y(getCollapseSize());
+        b3.y(0).height(mCollapseSize);
         BaseAnimationObject b4 = new BaseAnimationObject(mGroup4);
-        b4.y(getCollapseSize());
+        b4.y(0).height(mCollapseSize);
 
         AnimationQueue queue = new AnimationQueue(0, b1);
         queue.nextQueue(0, b2);
         queue.nextQueue(0, b3);
         queue.nextQueue(0, b4);
         queue.startTogether();
+        view.showImage(false, b1);
+
     }
 
     @Override
     public void onClick(View v) {
         if (isCallaps){
             if (v instanceof Item){
-                ((Item) v).showImage(true);
                 expand((Item) v);
             }
         } else {
             if (v instanceof Item){
-                ((Item) v).showImage(false);
                 collapse((Item) v);
             }
         }
+    }
+
+    private int toDp(int val){
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, val, getContext().getResources().getDisplayMetrics());
     }
 
 }
