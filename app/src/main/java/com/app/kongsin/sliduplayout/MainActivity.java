@@ -54,10 +54,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
-                outRect.left = toDp(12);
-                outRect.right = toDp(12);
-                outRect.top = toDp(12);
-                outRect.bottom = toDp(12);
+                GridLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
+
+                int pos = parent.getChildAdapterPosition(view);
+                if (pos % layoutManager.getSpanCount() == 0) {
+                    outRect.left = toDp(12);
+                    outRect.right = toDp(6);
+                } else {
+                    outRect.left = toDp(6);
+                    outRect.right = toDp(12);
+                }
+                if (pos < layoutManager.getSpanCount()) {
+                    outRect.top = toDp(12);
+                    outRect.bottom = toDp(6);
+                } else if (pos < (layoutManager.getItemCount() - layoutManager.getSpanCount())){
+                    outRect.top = toDp(6);
+                    outRect.bottom = toDp(6);
+                } else {
+                    outRect.top = toDp(6);
+                    outRect.bottom = toDp(12);
+                }
+
             }
         });
     }
