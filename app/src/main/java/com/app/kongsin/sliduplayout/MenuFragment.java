@@ -158,7 +158,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, val, getContext().getResources().getDisplayMetrics());
     }
 
-    public void injetRecyclerView(RecyclerView mGridLayout) {
+    public void injectRecyclerView(RecyclerView mGridLayout) {
         mRecyclerView = mGridLayout;
     }
 }

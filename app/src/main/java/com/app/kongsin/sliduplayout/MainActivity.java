@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setItemDecoration();
 
         MenuFragment fragment = new MenuFragment();
-        fragment.injetRecyclerView(mGridLayout);
+        fragment.injectRecyclerView(mGridLayout);
         fragment.setOnClickListener(new OnMenuClickedListener() {
             @Override
             public void onClicked(Item item, boolean expand) {
